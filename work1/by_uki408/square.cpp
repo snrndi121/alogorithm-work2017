@@ -32,7 +32,7 @@ int main()
             data_seq.reserve(sz);
             while(insq >> _data)
             {
-        		    /* DATA RANGE CHECKING */
+        		/* DATA RANGE CHECKING */
                 if(_data < MIN_NUM || _data > MAX_NUM)
                 {
                     break;
