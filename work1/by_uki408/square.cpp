@@ -32,7 +32,7 @@ int main()
             data_seq.reserve(sz);
             while(insq >> _data)
             {
-        		    /* DATA RANGE CHECKING */
+        		/* DATA RANGE CHECKING */
                 if(_data < MIN_NUM || _data > MAX_NUM)
                 {
                     break;
@@ -55,7 +55,7 @@ int main()
                     for(vector<uint>::iterator pin_b = (pin_a-1); pin_b!=data_seq.begin(); pin_b--)
                     {
                         double val = (*pin_a) - pow((double)*pin_b, POW_NUM);
-        				        bool ch1=(val/1.0 == (int)val);
+        				bool ch1=(val/1.0 == (int)val);
                         if(val>0 && ch1)
                         {
                             double target = sqrt(val);
