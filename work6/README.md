@@ -18,8 +18,11 @@ ex) T=3, 6 tasks, 2 machine
  d(i) 2   3   3   2   1   1   2   3
 
 -> (best)
+
    day   1   2   3
+   
    m1    98  32  25
+   
    m2    10  14  21
 
 # Condition
