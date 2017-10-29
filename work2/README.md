@@ -10,7 +10,7 @@
 
 - The X axle range -1000 to 1000, and we only discuss X is a integer.
 
-- S(t) = B*t + A*(1-t),
+- S(t) = B * t + A * (1-t),
 
   this is a equation to get the point M on the line(A-B).
 
