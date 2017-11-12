@@ -10,13 +10,19 @@
  So We would receive the work requested from the client during 1 ~ T days. Notice that we should be strict on time so do not excess the due day(d(i)). If we are good, we will get the reward(c(i)). There are N tasks and K machines, What is the best reward and the second best reward?
 
 ex) T=3, 6 tasks, 2 machine
+ 
  t(i) 1   2   3   4   5   6   7   8
+ 
  c(i) 32  25  14  10  5   98  3   21
+ 
  d(i) 2   3   3   2   1   1   2   3
 
 -> (best)
+
    day   1   2   3
+   
    m1    98  32  25
+   
    m2    10  14  21
 
 # Condition
