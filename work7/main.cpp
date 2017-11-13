@@ -209,9 +209,9 @@ void searchRoad(void)
     stack < int > stackRoad;
     vector < int > temp;
     InitRoad(stackRoad);
-    int returnCost1=calCostBack(stackRoad.top, 0, 1), returnCost2=0;
-    min_cost-=returnCost1;
-    int new_cost=min_cost;
+    int returnCost1=calCostBack(stackRoad.top()-1, 0, 1), returnCost2=0;
+    cout << " >> Init_return cost :" << returnCost1 << endl;
+    int new_cost=min_cost-returnCost1;
     int index=0;
     int _weight=1;
     while(!stackRoad.empty())
@@ -224,7 +224,7 @@ void searchRoad(void)
         int _new_top=findTarget(temp, _top);
         // Switching the top biggenr than current top
         // And pushing all from temp into stackRoad
-        if(_new_top != -1)
+        if(_new_top != -1 && index < 5)
         {
             //selecting the top bigger than current top
             //action_1 : pop a origin Top
@@ -268,7 +268,8 @@ void searchRoad(void)
                     printStack(stackRoad);
                 }
             temp.clear();
-            returnCost2=calCostBack(stackRoad.top(), 0, 1);
+            returnCost2=calCostBack(stackRoad.top()-1, 0, 1);
+            cout << ">> new return cost(" << stackRoad.top() << "-> 1): " << returnCost2 << endl;
             //printVector(temp);
         } else
         {
@@ -283,9 +284,9 @@ void searchRoad(void)
             printStack(stackRoad);
             sort(temp.begin(), temp.end());
         }
-        if(temp.size() == 0 && min_cost+returnCost1 > new_cost+returnCost2)
+        if(temp.size() == 0 && min_cost> new_cost+returnCost2)
         {
-            min_cost = new_cost;
+            min_cost = +returnCost2;
             stackClear();
             answer=stackRoad;
         }
