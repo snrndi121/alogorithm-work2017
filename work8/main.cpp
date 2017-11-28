@@ -67,8 +67,7 @@ public:
   }
   bool checkSame(vector < pType>& _CNew)
   {
-
-
+      
   }
   void adjustCenter(vector < pType >& _CNew)
   {
