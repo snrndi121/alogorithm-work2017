@@ -4,238 +4,114 @@
 #include <map>
 #include <vector>
 #include <string>
-#include <algorithm>
 
 using namespace std;
 
 /* global variable */
-unsigned int k=0;  //len of chrome
-unsigned int N=0; // num of token
-vector < string > chrome;
-typedef pair <int, int> pType;
-typedef pair < int, pair < int, int > > ppType; //count || string index || K token start index
-pType maxCountAndFirstPosition = make_pair(0, -1);//pair < count, firstposition >
-map<unsigned long long, ppType > hashTable;//< hash, pair < count, start index > >
-unsigned const int base = 256;
+unsigned int k=0;
+string mother_chrome;
+map < string, pair < string, int > > table;
 struct hType
 {
-    unsigned long long int hval;
-    ppType p;
-};typedef hType hType;
+    hType() {token = "", count = 0;}
+    string token;
+    unsigned count=0;
+};
+typedef struct hType hType;
+void file_read(void);
+hType MFK_map(void);
+void stringFound(void);
+hType heapsort(void);
+void print_answer(hType mfk);
 
 struct cmp{
-   bool operator()(ppType& a, ppType& b)
-   {
-      return a.first < b.first;
-   }
-};typedef struct cmp cmp;
-struct cmp1{
    bool operator()(hType& a, hType& b)
    {
-      return a.p.first < b.p.first;//(a.hval < b.hval) && (a.p.first < b.p.first);//
+      return a.count < b.count;//(a.hval < b.hval) && (a.p.first < b.p.first);//
    }
-};typedef struct cmp1 cmp1;
-void file_read(void);
-void printAnswer(void);
-void printVector(vector < string >& str);
-void Quicksort3way(vector < string >& a);
-void swap(vector < string >& a, int i, int j);
-void qsort3way(vector < string >& a, int l, int h, int d);
-void hashCount(string& s, unsigned int sindex, unsigned long long& xPowOfBase);
-void heapsort(void);
-void heapsort1(void);
-unsigned long long hashString(string& s);
-void MFK_hash(void);
+};
+typedef struct cmp cmp;
 
 int main(void)
 {
     file_read();
-    //printVector(chrome);
 
-    Quicksort3way(chrome);
-    //printVector(chrome);
+    print_answer(MFK_map());
 
-    //MFK_heap();
-    MFK_hash();
-    //printAnswer();
     return 0;
 }
 void file_read(void)
 {
     ifstream ifs("k-mer.inp");
+    string str;
     ifs >> k;
-    while(!ifs.fail())
+    while(ifs >> str)
     {
-        string str;
-        ifs >> str;
-        chrome.push_back(str);
+        mother_chrome += str;
     }
     ifs.close();
 }
-void printAnswer(void)
+hType MFK_map(void)
 {
-    //cout << maxCountAndFirstPosition.first << std::endl;
-    //cout << s.substr(maxCountAndFirstPosition.second, x) << std::endl;
-    ofstream ofs("k-mer.out");
 
-    ofs.close();
+    stringFound();
+    hType _mfk = heapsort();
+    return _mfk;
 }
-void printVector(vector < string >& str)
+hType heapsort(void)
 {
-    for(vector < string >::iterator it=str.begin();
-        it!=str.end(); ++it)
+    priority_queue < hType, vector < hType >, cmp > pq;
+    map < string, pair < string, int > >::iterator it = table.begin();
+    hType _h;
+    for(; it != table.end(); ++it)
     {
-        cout << (*it) << endl;
+        _h.token = (*it).second.first;
+        _h.count = (*it).second.second;
+        pq.push(_h);
     }
-}
-// 3-Way Quicksort
-void Quicksort3way(vector < string >& a)
-{
-    int len=a.size()-1;
-		qsort3way(a, 0, len, 0);
-}
-// helper method for 3 way quicksort
-void swap(vector < string >& a, int i, int j)
-{
-		string temp = a[i];
-		a[i] = a[j];
-		a[j] = temp;
-}
-void qsort3way(vector < string >& a, int l, int h, int d)
-{
-		if (h <= l) return;
-
-		int lt = l, gt = h;
-		int v = a[l][d];
-		int i = l + 1;
-
-		// partition
-    while(i <= gt)
+    //check Dictionary order
+    hType _ans = pq.top(), _compare;
+    pq.pop();
+    _compare = pq.top();
+    cout << "now top\n" << _ans.token << endl;
+    cout << "(" << _compare.count << ")" << _compare.token << endl;
+    while(_ans.count == _compare.count)
     {
-        int t = a[i][d];
-        if(t < v) { swap(a, lt++, i++); }
-        else if(t > v) { swap(a, i, gt--);}
-        else { i++; }
-    }
-		// a[lo..lt-1] < v = a[lt..gt] < a[gt+1..hi]
-		qsort3way(a, l, lt - 1, d);
-		if(v >= 0) { qsort3way(a, lt, gt, d + 1); }
-		qsort3way(a, gt + 1, h, d);
-}
-//Maybe you can get rid of parameter s here using global variable 'chrome' and its 'sindex'
-unsigned long long hashString(string& s)
-{
-    unsigned long long firstXLengthSubString = 0;
-    unsigned int i;
-    for(i = 0; i < k; ++i)
-    {
-        firstXLengthSubString *= base;
-        firstXLengthSubString += s[i];
-    }
-    return firstXLengthSubString;
-}
-void hash_count(string& s, unsigned int sindex, unsigned long long& xPowOfBase)
-{
-    unsigned int i;
-    unsigned long long firstXLengthSubString = 0;
-    for(i = 0; i < k; ++i)
-    {
-        firstXLengthSubString *= base;
-        firstXLengthSubString += s[i];
-    }
-    unsigned long long nextXLengthSubstring = firstXLengthSubString;
-    //step2.start i = k + 1 until total string s.
-    for(;i <= s.size(); ++i)
-    {
-        //find nextSubstring then count up
-        if(hashTable.find(nextXLengthSubstring) != hashTable.end())
-            ++hashTable[nextXLengthSubstring].first;
-        //Not found then nextSubstring and Init value
-        else
-            hashTable.insert(make_pair(nextXLengthSubstring, make_pair(1, make_pair(sindex, i - k))));//[i-x] : means that find the start index
-        //Index i < toal String s
-        //Then change nextSubstring
-        if(i != s.size())
+        //compare
+        if(_ans.token > _compare.token)
         {
-            nextXLengthSubstring *= base;
-            nextXLengthSubstring += s[i];
-            //Modify the start Index of substrings to be checked
-            nextXLengthSubstring -= s[i - k] * xPowOfBase;
+          cout << " >> changing" << endl;
+          _ans=_compare;
         }
+        pq.pop();
+        _compare = pq.top();
+        cout << "(" << _compare.count << ")" << _compare.token << endl;
+    }
+    return _ans;
+}
+void stringFound(void)
+{
+    //cout << "\n>> src_string : " << chrome[_index] << endl;
+    string next_string = mother_chrome.substr(0, k);
+    //cout << "neew_tooken :" << next_string << endl;
+    for(unsigned i=k; i <= mother_chrome.size(); ++i)
+    {
+        if(table.find(next_string) != table.end())
+            ++table[next_string].second;
+        else
+            table.insert(make_pair(next_string, make_pair(next_string, 1)));
+        if(i != mother_chrome.size())
+        {
+            next_string.erase(next_string.begin());
+            next_string += mother_chrome[i];
+        }
+        //cout << "next_string :" << next_string << endl;
     }
 }
-void heapsort1(void)
+void print_answer(hType mfk)
 {
-  priority_queue <hType, vector<hType>, cmp1 >pq;
-  map<unsigned long long, ppType>::iterator it;
-  hType _h;
-  for(it=hashTable.begin(); it!=hashTable.end(); ++it)
-  {
-      _h.hval=(*it).first;
-      _h.p=(*it).second;
-      pq.push(_h);
-  }
-  //check Dictionary order
-  hType _ans=pq.top(), _compare;
-  pq.pop();
-  _compare=pq.top();
-  while(_ans.p.first == _compare.p.first)
-  {
-      //compare
-      if(_ans.hval > _compare.hval)
-      {
-        _ans=_compare;
-      }
-      pq.pop();
-      _compare=pq.top();
-  }
 
-  cout << endl;
-  //cout << "token_size :" << k << endl;
-  //cout << "top_hash :" << _ans.hval << endl;
-  //cout << "pq.count:" << _ans.p.first << endl;
-  int target_index=_ans.p.second.first;//String index
-  int start_index=_ans.p.second.second;//Start index
-  //cout << " >> target_index :" << target_index << endl;
-  //cout << " >> start_index :" << start_index << endl;
-  //cout << " >> token :" << chrome[target_index].substr(start_index, k) << endl;
   ofstream ofs("k-mer.out");
-  ofs << chrome[target_index].substr(start_index, k);
+  ofs << mfk.token;
   ofs.close();
-}
-void heapsort(void)
-{
-  priority_queue <ppType, vector<ppType>, cmp >pq;
-  //pq.capacity(10);
-  map<unsigned long long, ppType>::iterator it;
-  for(it=hashTable.begin(); it!=hashTable.end(); ++it)
-  {
-      pq.push(it->second);
-  }
-  ppType _top=pq.top();
-  cout << endl;
-  cout << "pq.count:" << _top.first << endl;
-  int target_index=_top.second.first;//String index
-  int start_index=_top.second.second;//Start index
-  cout << " >> target_index :" << target_index << endl;
-  cout << " >> start_index :" << start_index << endl;
-  cout << " >> token :" << chrome[target_index].substr(start_index, k) << endl;
-}
-void MFK_hash(void)
-{
-
-  unsigned const int base = 256; //Means that 1 bit -> 2^8 integer
-  unsigned long long xPowOfBase = 1;
-  unsigned int i = 0;
-  for(i = 1; i <= k; ++i)
-      xPowOfBase *= base;//Means that token(x) has xPowOfBase x bit <-> x*2^8 integer
-
-  int target_index=0;
-  for(vector < string >::iterator sit=chrome.begin(); sit!=chrome.end(); sit++)
-  {
-      hash_count((*sit), target_index, xPowOfBase);
-      target_index++;
-  }
-  //heapsort();
-  heapsort1();
 }
