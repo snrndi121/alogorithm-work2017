@@ -1,6 +1,7 @@
-# writer : uki408
-# data : 2017-09-08
-# subject : algorithm
+# Header 
+- writer : uki408
+- data : 2017-09-08
+- subject : algorithm
 
 # EXPLAIN THE HOMEWORK
 - There are positive integer group. The number range of input paramerter is 5 <= the number <= 100000.And its number is 1<= x <= 1000.
