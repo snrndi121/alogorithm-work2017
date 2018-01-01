@@ -1,6 +1,7 @@
-# coder : uki408
-# email : snrndi4521@gmail.com
-# upload-date : 2017-09-18
+# Header
+- writer : uki408
+- email : snrndi4521@gmail.com
+- upload-date : 2017-09-18
 
 # Aim 
 - we want to get the shotest length from the line to the point 'P'.
