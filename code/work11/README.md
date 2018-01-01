@@ -1,6 +1,7 @@
-# coder : uki408
-# email : snrndi4521@gmail.com
-# upload-date : 2017-12-28
+# Header
+- writer : uki408
+- email : snrndi4521@gmail.com
+- upload-date : 2017-12-28
 
 # Aim
 - we want to find the counterclockwise convex hull in 2-dimension
