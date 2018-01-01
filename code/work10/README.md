@@ -1,6 +1,7 @@
-# coder : uki408
-# email : snrndi4521@gmail.com
-# upload-date : 2017-12-29
+# Header
+- coder : uki408
+- email : snrndi4521@gmail.com
+- upload-date : 2017-12-29
 
 # Aim
 - we want to find the maximum of the biconnected graph
