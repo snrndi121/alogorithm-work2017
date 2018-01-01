@@ -1,6 +1,7 @@
-# coder : uki408
-# email : snrndi4521@gmail.com
-# upload-date : 2017-10-28
+# Header
+- coder : uki408
+- email : snrndi4521@gmail.com
+- upload-date : 2017-10-28
 
 # Aim
 - we want to get the best reward and the second best reward.
