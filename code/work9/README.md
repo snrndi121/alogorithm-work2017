@@ -1,6 +1,7 @@
-# coder : uki408
-# email : snrndi4521@gmail.com
-# upload-date : 2017-12-03
+# Header
+- coder : uki408
+- email : snrndi4521@gmail.com
+- upload-date : 2017-12-03
 
 # Aim
 - we want to find the most frequent k-mer in the Gene problem.
