@@ -19,7 +19,7 @@ can use the 'signed area'
 - The range of x and y : 1 <= x, y <= 1000
 
 # Input file & Output file
-- Input file(spiral.inp)
+- Input file(spiral.inp)  
 line 1: 5  
 line 2: 900, 900  
 line 3: 960, 920  
