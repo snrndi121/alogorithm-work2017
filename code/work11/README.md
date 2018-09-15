@@ -20,12 +20,12 @@ can use the 'signed area'
 
 # Input file & Output file
 - Input file(spiral.inp)
-line 1: 5
-line 2: 900, 900
-line 3: 960, 920
-line 4: 940, 980
-line 5: 900, 940
-line 6: 900, 920
+line 1: 5  
+line 2: 900, 900  
+line 3: 960, 920  
+line 4: 940, 980  
+line 5: 900, 940  
+line 6: 900, 920  
 
-- Output file(spiral.out)
-line 1:  2 3 4 5 1
+- Output file(spiral.out)  
+line 1:  2 3 4 5 1  
